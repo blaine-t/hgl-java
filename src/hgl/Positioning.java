@@ -20,7 +20,7 @@ public class Positioning extends GraphicsProgram {
 	 * @param percentY The location in percentile scaling from 0 to 100 of the object on the y cord.
 	 * @param relObj The object that the scaling should be relative to (Use null for canvas).
 	 */
-	public final void percentObjRel(GObject obj, double percentX, double percentY, GObject relObj) {
+	public final void percentObjRel(GObject obj, double percentX, double percentY, GObject relObj, boolean left) {
 
 		// Defines a bunch of variables, also sets defaults for many of them in case of nulls
 		double posYFinal;
@@ -47,8 +47,13 @@ public class Positioning extends GraphicsProgram {
 		}
 
 		// These set the X and Y positions of the defined object relative to the parent object, in percent
-		posXFinal = (relObjWidth * percentXFinal) - objCenterX + relObjX;
-		posYFinal = (relObjHeight * percentYFinal) - objCenterY + relObjY;
+		if (left != true) {
+			posXFinal = (relObjWidth * percentXFinal) - objCenterX + relObjX;
+			posYFinal = (relObjHeight * percentYFinal) - objCenterY + relObjY;
+		} else {
+			posXFinal = (relObjWidth * percentXFinal) + relObjX;
+			posYFinal = (relObjHeight * percentYFinal) + relObjY;
+		}
 
 		// Check if the object is a GLabel, and if so translate it up by its height to avoid positioning errors
 		if (obj.getClass().equals(GLabel.class)) {
@@ -76,9 +81,9 @@ public class Positioning extends GraphicsProgram {
 			padding = 5;
 		}
 
-		percentObjRel(boxObj, percentX, percentY, relObj);
+		percentObjRel(boxObj, percentX, percentY, relObj, false);
 		boxObj.setSize(labelObj.getWidth()+(padding), labelObj.getHeight()+(padding));
-		percentObjRel(labelObj, 50, 50, boxObj);
+		percentObjRel(labelObj, 50, 50, boxObj, false);
 	}
 
 	/**
