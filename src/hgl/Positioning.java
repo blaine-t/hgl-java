@@ -19,6 +19,7 @@ public class Positioning extends GraphicsProgram {
 	 * @param percentX The location in percentile scaling from 0 to 100 of the object on the x cord.
 	 * @param percentY The location in percentile scaling from 0 to 100 of the object on the y cord.
 	 * @param relObj The object that the scaling should be relative to (Use null for canvas).
+	 * @param left If you want the text to be aligned left
 	 */
 	public final void percentObjRel(GObject obj, double percentX, double percentY, GObject relObj, boolean left) {
 
