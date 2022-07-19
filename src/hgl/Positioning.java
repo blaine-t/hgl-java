@@ -112,7 +112,7 @@ public class Positioning extends GraphicsProgram {
 	 * @usage percentObjSize(obj, percentX, percentY);
 	 * 
 	 * @param obj The resizable object that will be scaled.
-	 * @param PercentX The size in percentile scaling from 0 to 100 of the object on the x cord.
+	 * @param percentX The size in percentile scaling from 0 to 100 of the object on the x cord.
 	 * @param percentY The size in percentile scaling from 0 to 100 of the object on the y cord.
 	 * 
 	 */
@@ -177,8 +177,9 @@ public class Positioning extends GraphicsProgram {
 	 * @usage labelChunk(labels,gbox);
 	 * 
 	 * @param labels The labels list which contains label object that will be chunked together
-	 * @param scale The size that the label will be at 1080p (will be scaled).
-	 * @param padding The amount of padding for the chunk.
+	 * @param gbox The box in which the labels will be
+	 * @param xPadding The amount of padding for the chunk on the x.
+	 * @param yPadding The amount of padding for the chunk on the y.
 	 * 
 	 */
 	public final void labelChunk(GLabel[] labels, GRect gbox, double xPadding, double yPadding) {
