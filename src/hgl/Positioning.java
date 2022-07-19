@@ -148,4 +148,81 @@ public class Positioning extends GraphicsProgram {
 		}
 		gbox.setSize(width, height);
 	}
+	
+	public final void percentLine(GLine line, double x1, double y1, double x2, double y2) {
+		// Get canvas size
+		final int width = getWidth();
+		final int height = getHeight();
+		
+		// Make all of the variables actual percents
+		x1 /= 100;
+		y1 /= 100;
+		x2 /= 100;
+		y2 /= 100;
+		
+		// Make the percents into actual points
+		x1 *= width;
+		y1 *= height;
+		x2 *= width;
+		y2 *= height;
+		
+		// Set lines values
+		line.setStartPoint(x1, y1);
+		line.setEndPoint(x2, y2);
+		
+	}
+	
+	public final GPolygon thickLine(double x1, double y1, double x2, double y2, int thickness) {
+		// Get canvas size
+		final int width = getWidth();
+		final int height = getHeight();
+		
+		// Make all of the variables actual percents
+		x1 /= 100;
+		y1 /= 100;
+		x2 /= 100;
+		y2 /= 100;
+		// Make the percents into actual points
+		x1 *= width;
+		y1 *= height;
+		x2 *= width;
+		y2 *= height;
+		
+		// Setup integers for thickness scaling
+		double scaleX = width*thickness/1920;
+		double scaleY = height*thickness/1080;
+		
+		// Scale the thicknesss
+		double scaledThickness;
+		
+		if (scaleX > scaleY ) {
+			scaledThickness = scaleY;
+		}
+		else { 
+			scaledThickness = scaleX;
+		}
+		
+		// Calculate the vertices
+		final double halvedThickness = scaledThickness/2;
+		
+		final double posX1Final = x1 + halvedThickness;
+		final double posY1Final = y1 - halvedThickness;
+		final double posX2Final = x1 - halvedThickness;
+		final double posY2Final = y1 + halvedThickness;
+		final double posX3Final = x2 - halvedThickness;
+		final double posY3Final = y2 + halvedThickness;
+		final double posX4Final = x2 + halvedThickness;
+		final double posY4Final = y2 - halvedThickness;
+		
+		// Set vertex values
+		GPoint point1 = new GPoint(posX1Final,posY1Final);
+		GPoint point2 = new GPoint(posX2Final,posY2Final);
+		GPoint point3 = new GPoint(posX3Final,posY3Final);
+		GPoint point4 = new GPoint(posX4Final,posY4Final);
+		
+		// Makes the thick line and fills it
+		GPoint[] points = {point1,point2,point3,point4};
+		GPolygon poly = new GPolygon(points);
+		return (poly);
+	}
 }
