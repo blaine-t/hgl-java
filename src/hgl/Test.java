@@ -1,64 +1,179 @@
 package hgl;
 
-import java.awt.Color;
-import java.awt.*;
-import java.awt.event.*;
 import acm.graphics.*;
 
 public class Test extends Positioning {
-	private static final long serialVersionUID = -5197257880108098224L;
-	
-	public void keyTyped(KeyEvent e) {
-		
-	}
-	
+
+	private static final long serialVersionUID = -7175703548190493593L;
+
+	private static final int REFRESH = 16;
+
 	public void run() {
-		//add listeners
-		addKeyListeners();
-		addMouseListeners();
-		
-		//set parameters
-		setSize(1280, 720);
 
-		//set objects
-		GRoundRect mainBox = new GRoundRect(50,50,100,100);
-		mainBox.setColor(Color.white);
-		GRoundRect labelRect1 = new GRoundRect(10,10,300,300);
-		labelRect1.setColor(Color.white);
-		setBackground(Color.black);
-		GLabel label1 = new GLabel("Hello World!");
-		GLabel label2 = new GLabel("Goodbye World!");
-		GLabel label3 = new GLabel("World...?");
-		label1.setColor(Color.white);
-		label2.setColor(Color.white);
-		label3.setColor(Color.white);
-		GObject[] labels = {label1, label2, label3};
-		
-		//add objects
-		add(mainBox);
-		add(labelRect1);
-		add(label1);
-		add(label2);
-		add(label3);
+		setSize(1280,720); // Set default window to 720p
 
-		while (true) {
-			/*
-			percentObjSize(testRect2, 10, 10);
-			percentObjSize(test3D, 10, 10);
-			percentObjSize(littleBoi, 2, 2);
-			*/
-			percentObjRel(mainBox, 50, 50, null, false);
-			mainBox.setSize(getWidth()-20,getHeight()-20);
-			percentObjRel(labelRect1, 2, 2, mainBox, true);
-			percentObjRel(label1, 5, 0, labelRect1, true);
-			percentLabel(label1,"Sans Serif",64);
-			percentObjRel(label2, 0, 0, label1, true);
-			percentLabel(label2,"Sans Serif",64);
-			percentObjRel(label3, 0, 100, label1, true);
-			percentLabel(label3,"Sans Serif",64);
-			labelChunk(labels,labelRect1);
-			
-			pause(16);
+		// Declare required variables
+		int oldWidth = 0;
+		int oldHeight = 0;
+		int width = getWidth();
+		int height = getHeight();
+
+		// PERCENTOBJREL TESTS
+
+		// Create required objects and variables for percentObjRel() TEST 1
+		double boxSize = 100;
+		GRect testRect1 = new GRect(0,0,boxSize,boxSize);
+		double percentX = 10;
+		double percentY = 10;
+
+		percentObjRel(testRect1,percentX,percentY,null,false);
+		add(testRect1);
+		println("POR TEST 1 COMPLETE");
+
+		// Create required objects and variables for percentObjRel() TEST 2
+		GRect testRect2 = new GRect(0,0,boxSize,boxSize);
+		double percentX2 = 50;
+		double percentY2 = 100;
+
+		percentObjRel(testRect2,percentX2,percentY2,testRect1,true);
+		add(testRect2);
+		println("POR TEST 2 COMPLETE");
+
+		// Create required objects and variables for percentObjRel() TEST 3
+		GRect testRect3 = new GRect(0,0,boxSize,boxSize);
+		double percentX3 = 40;
+		double percentY3 = 40;
+
+		percentObjRel(testRect3,percentX3,percentY3,testRect1,false);
+		add(testRect3);
+		println("POR TEST 3 COMPLETE");
+
+		// RECTLABEL TESTS
+
+		// Create required objects and variables for rectLabel() TEST 1
+		GLabel testLabel1 = new GLabel("TEST1");
+		GRect testRect4 = new GRect(0,0,0,0);
+		double percentX4 = 90;
+		double percentY4 = 10;
+		int padding = 0;
+
+		rectLabel(testLabel1,testRect4,percentX4,percentY4,padding,null);
+		add(testLabel1);
+		add(testRect4);
+		println("RL TEST 1 COMPLETE");
+
+		// Create required objects and variables for rectLabel() TEST 2
+		GLabel testLabel2 = new GLabel("TEST2");
+		GRect testRect5 = new GRect(0,0,0,0);
+		double percentX5 = 50;
+		double percentY5 = 150;
+		int padding2 = 10;
+
+		rectLabel(testLabel2,testRect5,percentX5,percentY5,padding2,testRect4);
+		add(testLabel2);
+		add(testRect5);
+		println("RL TEST 2 COMPLETE");
+
+		// PERCENTOBJSIZE TESTS
+
+		// Create required objects and variables for percentObjSize() TEST 1
+		GRect testRect6 = new GRect(400,0,0,0);
+		double percentX6 = 9;
+		double percentY6 = 16;
+
+		percentObjSize(testRect6,percentX6,percentY6);
+		add(testRect6);
+		println("POS TEST 1 COMPLETE");
+
+		// PERCENTLABEL TESTS
+
+		// Create required objects and variables for percentLabel() TEST 1
+		GLabel testLabel3 = new GLabel("TEST3",600,100);
+		int scale = 32;
+
+		percentLabel(testLabel3,scale);
+		add(testLabel3);
+		println("PL TEST 1 COMPLETE");
+
+		// LABELCHUNK TESTS
+
+		// Create required objects and variables for labelChunk() TEST 1
+		GLabel testLabel4 = new GLabel("TEST4");
+		GLabel testLabel5 = new GLabel("TEST5*");
+		GLabel testLabel6 = new GLabel("TEST6**");
+		GLabel[] testLabels1 = {testLabel4,testLabel5,testLabel6};
+		GRect testRect7 = new GRect(100,400,0,0);
+		double padding3 = 2;
+		double padding4 = 0.5;
+
+		percentObjRel(testLabel4, 0, 0, testRect7, true);
+		percentObjRel(testLabel5, 0, 0, testLabel4, true);
+		percentObjRel(testLabel6, 0, 0, testLabel5, true);
+		labelChunk(testLabels1,testRect7,padding3,padding4);
+		add(testLabel4);
+		add(testLabel5);
+		add(testLabel6);
+		add(testRect7);
+		println("LC TEST 1 COMPLETE");
+		
+		// PERCENTLINE TESTS
+		
+		// Create required objects and variables for percentLine() TEST 1
+		GLine line1 = new GLine(0,0,0,0);
+		double line1x1 = 10;
+		double line1y1 = 80;
+		double line1x2 = 80;
+		double line1y2 = 90;
+		
+		percentLine(line1,line1x1,line1y1,line1x2,line1y2);
+		add(line1);
+		println("PL TEST 1 COMPLETE");
+		
+		// THICKLINE TESTS
+		
+		// Create required objects and variables for thickLine() TEST 1
+		double line2x1 = 10;
+		double line2y1 = 90;
+		double line2x2 = 80;
+		double line2y2 = 80;
+		int thickness = 10;
+		GPolygon poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness);
+		
+
+		while(true) {
+			// Update width and height of the canvas
+			width = getWidth();
+			height = getHeight();
+
+			if (width != oldWidth || height != oldHeight) { // Only run updates when canvas changes size
+
+				percentObjRel(testRect1,percentX,percentY,null,false);
+				percentObjRel(testRect2,percentX2,percentY2,testRect1,true);
+				percentObjRel(testRect3,percentX3,percentY3,testRect1,false);
+
+				rectLabel(testLabel1,testRect4,percentX4,percentY4,padding,null);
+				rectLabel(testLabel2,testRect5,percentX5,percentY5,padding2,testRect4);
+
+				percentObjSize(testRect6,percentX6,percentY6);
+
+				percentLabel(testLabel3,scale);
+				
+				percentObjRel(testLabel4, 0, 0, testRect7, true);
+				percentObjRel(testLabel5, 0, 0, testLabel4, true);
+				percentObjRel(testLabel6, 0, 0, testLabel5, true);
+				labelChunk(testLabels1,testRect7,padding3,padding4);
+				
+				percentLine(line1,line1x1,line1y1,line1x2,line1y2);
+				
+				remove(poly);
+				poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness);
+				add(poly);
+				
+				// Write the new width and height to oldWidth and oldHeight
+				oldWidth = width;
+				oldHeight = height;
+			}
+			pause(REFRESH); // Wait to run loop again for given refresh rate
 		}
 	}
 }
