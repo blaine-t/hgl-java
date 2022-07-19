@@ -1,13 +1,22 @@
 package hgl;
 
 import java.awt.Color;
-
+import java.awt.*;
+import java.awt.event.*;
 import acm.graphics.*;
 
 public class Test extends Positioning {
 	private static final long serialVersionUID = -5197257880108098224L;
 	
+	public void keyTyped(KeyEvent e) {
+		
+	}
+	
 	public void run() {
+		//add listeners
+		addKeyListeners();
+		addMouseListeners();
+		
 		//set parameters
 		setSize(1280, 720);
 
@@ -23,7 +32,6 @@ public class Test extends Positioning {
 		label1.setColor(Color.white);
 		label2.setColor(Color.white);
 		label3.setColor(Color.white);
-
 		
 		//add objects
 		add(mainBox);
@@ -40,14 +48,14 @@ public class Test extends Positioning {
 			*/
 			percentObjRel(mainBox, 50, 50, null, false);
 			mainBox.setSize(getWidth()-20,getHeight()-20);
-			percentObjRel(labelRect1, 10, 10, mainBox, true);
-			percentObjSize(labelRect1, 16, 13);
+			percentObjRel(labelRect1, 2, 2, mainBox, true);
 			percentObjRel(label1, 10, 0, labelRect1, true);
-			percentLabel(label1,"Serif",32);
+			percentLabel(label1,"Sans Serif",64);
 			percentObjRel(label2, 0, 0, label1, true);
-			percentLabel(label2,"Serif",32);
+			percentLabel(label2,"Sans Serif",64);
 			percentObjRel(label3, 0, 100, label1, true);
-			percentLabel(label3,"Serif",32);
+			percentLabel(label3,"Sans Serif",64);
+			labelRect1.setSize(label2.getWidth()+label2.getWidth()/5,label1.getHeight()+label2.getHeight()+label3.getHeight());
 			
 			pause(16);
 		}
