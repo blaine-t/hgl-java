@@ -134,4 +134,18 @@ public class Positioning extends GraphicsProgram {
 			labelObj.setFont(font + "-" + scaleX);
 		}
 	}
+	
+	public final void labelChunk(GObject[] objs, GRect gbox) {
+		int height = 0;
+		double width = 0;
+		for (int i = 0; objs.length > i; i++) {
+			if (width < objs[i].getWidth()) {
+				width = objs[i].getWidth()+objs[i].getWidth()/6;
+			}
+		}
+		for (int i = 0; objs.length > i; i++) {
+			height += objs[i].getHeight();
+		}
+		gbox.setSize(width, height);
+	}
 }

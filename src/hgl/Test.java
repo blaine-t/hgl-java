@@ -32,6 +32,7 @@ public class Test extends Positioning {
 		label1.setColor(Color.white);
 		label2.setColor(Color.white);
 		label3.setColor(Color.white);
+		GObject[] labels = {label1, label2, label3};
 		
 		//add objects
 		add(mainBox);
@@ -49,13 +50,13 @@ public class Test extends Positioning {
 			percentObjRel(mainBox, 50, 50, null, false);
 			mainBox.setSize(getWidth()-20,getHeight()-20);
 			percentObjRel(labelRect1, 2, 2, mainBox, true);
-			percentObjRel(label1, 10, 0, labelRect1, true);
+			percentObjRel(label1, 5, 0, labelRect1, true);
 			percentLabel(label1,"Sans Serif",64);
 			percentObjRel(label2, 0, 0, label1, true);
 			percentLabel(label2,"Sans Serif",64);
 			percentObjRel(label3, 0, 100, label1, true);
 			percentLabel(label3,"Sans Serif",64);
-			labelRect1.setSize(label2.getWidth()+label2.getWidth()/5,label1.getHeight()+label2.getHeight()+label3.getHeight());
+			labelChunk(labels,labelRect1);
 			
 			pause(16);
 		}
