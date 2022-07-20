@@ -15,10 +15,10 @@ import acm.program.GraphicsProgram;
  *
  */
 public class Positioning extends GraphicsProgram {
-	
+
 	private static final long serialVersionUID = -1765118902853006428L;
 
-	
+
 	/**
 	 * 
 	 * Positions an object relative to another object (or the canvas) in percentile scaling.
@@ -77,7 +77,7 @@ public class Positioning extends GraphicsProgram {
 		}
 	}
 
-	
+
 	/**
 	 * 
 	 * Makes a label in a GObject.
@@ -93,18 +93,18 @@ public class Positioning extends GraphicsProgram {
 	 * 
 	 */
 	public final void rectLabel(GLabel labelObj, GRect boxObj, double percentX, double percentY, int padding, GObject relObj) {
-		
+
 		// Checks if padding is set to 0, and if so it sets to the default padding value
 		if (padding == 0) {
 			padding = 5;
 		}
-		
+
 		boxObj.setSize(labelObj.getWidth()+(padding), labelObj.getHeight()+(padding)); // Sets the size of the box
 		percentObjRel(boxObj, percentX, percentY, relObj, false); // Sets the location of the box
 		percentObjRel(labelObj, 50, 50, boxObj, false); // Sets the location of the label in the center of the box
 	}
 
-	
+
 	/**
 	 * 
 	 * Changes the size of a GResizable based on percent size.
@@ -114,17 +114,30 @@ public class Positioning extends GraphicsProgram {
 	 * @param obj The resizable object that will be scaled.
 	 * @param percentX The size in percentile scaling from 0 to 100 of the object on the x cord.
 	 * @param percentY The size in percentile scaling from 0 to 100 of the object on the y cord.
+	 * @param relObj The object to change the size relative to (Use null for canvas).
 	 * 
 	 */
-	public final void percentObjSize(GResizable obj, double percentX, double percentY) {
-		
+	public final void percentObjSize (GResizable obj, double percentX, double percentY, GObject relObj) {
+
 		// Makes the percent an actual percent (ex: 50 becomes 0.5)
 		final double percentXFinal = (percentX / 100);
 		final double percentYFinal = (percentY / 100);
 
-		// Gets the coordinates of the canvas
-		final int width = getWidth();
-		final int height = getHeight();
+		// Declares width and height variables to hold the new height and width
+		double width;
+		double height;
+
+		if (relObj == null) {
+			// Gets the coordinates of the canvas
+			width = getWidth();
+			height = getHeight();
+		}
+		else {
+			// Gets the coordinates of the relObj
+			width = relObj.getWidth();
+			height = relObj.getHeight();
+		}
+
 
 		// Scales the objects size
 		final double objWidth = width*percentXFinal;
@@ -133,7 +146,7 @@ public class Positioning extends GraphicsProgram {
 		obj.setSize(objWidth,objHeight);
 	}
 
-	
+
 	/**
 	 * 
 	 * Changes the size of text based on resolution of window.
@@ -168,43 +181,43 @@ public class Positioning extends GraphicsProgram {
 			labelObj.setFont("*-" + scaleX); // Sets the font size of labelObj, maintaining current font
 		}
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * Creates a chunk of text out of an array of labels.
 	 * 
 	 * @usage labelChunk(labels,gbox);
 	 * 
-	 * @param labels The labels list which contains label object that will be chunked together
-	 * @param gbox The box in which the labels will be
+	 * @param labels The labels list which contains label object that will be chunked together.
+	 * @param gbox The box in which the labels will be incased.
 	 * @param xPadding The amount of padding for the chunk on the x.
 	 * @param yPadding The amount of padding for the chunk on the y.
 	 * 
 	 */
 	public final void labelChunk(GLabel[] labels, GRect gbox, double xPadding, double yPadding) {
-		
+
 		// Declares chunk defaults
 		double height = 0;
 		double width = 0;
-		
+
 		// Go through the list of labels and set the width of the box to the size of largest label + padding
 		for (int i = 0; labels.length > i; i++) {
 			if (width < labels[i].getWidth()) {
 				width = labels[i].getWidth()+labels[i].getWidth()/xPadding;
 			}
 		}
-		
+
 		// Go through the list of labels and add up the heights to get the height of the box
 		for (int i = 0; labels.length > i; i++) {
 			height += labels[i].getHeight();
 		}
 		height += height/yPadding;
-		
+
 		gbox.setSize(width, height);
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * Changes the size of a GLine based on percent size.
@@ -216,32 +229,54 @@ public class Positioning extends GraphicsProgram {
 	 * @param y1 The location in percentile scaling from 0 to 100 of the line start on the y cord.
 	 * @param x2 The location in percentile scaling from 0 to 100 of the line end on the x cord.
 	 * @param y2 The location in percentile scaling from 0 to 100 of the line end on the x cord.
+	 * @param relObj The object to scale relative to (Use null for canvas).
 	 * 
 	 */
-	public final void percentLine(GLine line, double x1, double y1, double x2, double y2) {
-		// Get canvas size
-		final int width = getWidth();
-		final int height = getHeight();
-		
+	public final void percentLine(GLine line, double x1, double y1, double x2, double y2, GObject relObj) {
+
+		// Declares width and height variables to hold the new height and width
+		double width;
+		double height;
+		double x = 0;
+		double y = 0;
+
+		if (relObj == null) {
+			// Gets the coordinates of the canvas
+			width = getWidth();
+			height = getHeight();
+		}
+		else {
+			// Gets the coordinates of the relObj
+			width = relObj.getWidth();
+			height = relObj.getHeight();
+			x = relObj.getX();
+			y = relObj.getY();
+		}
+
 		// Make all of the variables actual percents (ex: 50 becomes 0.5)
 		x1 /= 100;
 		y1 /= 100;
 		x2 /= 100;
 		y2 /= 100;
-		
+
 		// Make the percents into actual points (ex: 0.5 with a 1000x1000 canvas becomes 500)
 		x1 *= width;
 		y1 *= height;
 		x2 *= width;
 		y2 *= height;
 		
+		x1 += x;
+		y1 += y;
+		x2 += x;
+		y2 += y;
+
 		// Set line values
 		line.setStartPoint(x1, y1);
 		line.setEndPoint(x2, y2);
-		
+
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * Creates a thick line given start and end points (in percentile) and thickness.
@@ -257,30 +292,51 @@ public class Positioning extends GraphicsProgram {
 	 * @return poly Returns the thick line (polygon) to be used/drew in the main program.
 	 * 
 	 */
-	public final GPolygon thickLine(double x1, double y1, double x2, double y2, int thickness) {
-		// Get canvas size
-		final int width = getWidth();
-		final int height = getHeight();
-		
+	public final GPolygon thickLine(double x1, double y1, double x2, double y2, int thickness, GObject relObj) {
+
+		// Declares width and height variables to hold the new height and width
+		double width;
+		double height;
+		double x = 0;
+		double y = 0;
+
+		if (relObj == null) {
+			// Gets the coordinates of the canvas
+			width = getWidth();
+			height = getHeight();
+		}
+		else {
+			// Gets the coordinates of the relObj
+			width = relObj.getWidth();
+			height = relObj.getHeight();
+			x = relObj.getX();
+			y = relObj.getY();
+		}
+
 		// Make all of the variables actual percents (ex: 50 becomes 0.5)
 		x1 /= 100;
 		y1 /= 100;
 		x2 /= 100;
 		y2 /= 100;
-		
+
 		// Make the percents into actual points (ex: 0.5 with a 1000x1000 canvas becomes 500)
 		x1 *= width;
 		y1 *= height;
 		x2 *= width;
 		y2 *= height;
 		
+		x1 += x;
+		y1 += y;
+		x2 += x;
+		y2 += y;
+
 		// Setup scale for thickness scaling
 		double scaleX = width*thickness/1920;
 		double scaleY = height*thickness/1080;
-		
+
 		// Scale the thickness
 		double scaledThickness;
-		
+
 		// Base scaling off of the smaller value
 		if (scaleX > scaleY ) {
 			scaledThickness = scaleY;
@@ -288,10 +344,10 @@ public class Positioning extends GraphicsProgram {
 		else { 
 			scaledThickness = scaleX;
 		}
-		
+
 		// Calculate the vertices
 		final double halvedThickness = scaledThickness/2;
-		
+
 		final double posX1Final = x1 + halvedThickness;
 		final double posY1Final = y1 - halvedThickness;
 		final double posX2Final = x1 - halvedThickness;
@@ -300,13 +356,13 @@ public class Positioning extends GraphicsProgram {
 		final double posY3Final = y2 + halvedThickness;
 		final double posX4Final = x2 + halvedThickness;
 		final double posY4Final = y2 - halvedThickness;
-		
+
 		// Set vertex values
 		GPoint point1 = new GPoint(posX1Final,posY1Final);
 		GPoint point2 = new GPoint(posX2Final,posY2Final);
 		GPoint point3 = new GPoint(posX3Final,posY3Final);
 		GPoint point4 = new GPoint(posX4Final,posY4Final);
-		
+
 		// Makes the thick line and fills it
 		GPoint[] points = {point1,point2,point3,point4};
 		GPolygon poly = new GPolygon(points);

@@ -1,5 +1,7 @@
 package hgl;
 
+import java.awt.Color;
+
 import acm.graphics.*;
 
 public class Test extends Positioning {
@@ -81,7 +83,7 @@ public class Test extends Positioning {
 		double percentX6 = 9;
 		double percentY6 = 16;
 
-		percentObjSize(testRect6,percentX6,percentY6);
+		percentObjSize(testRect6,percentX6,percentY6,null);
 		add(testRect6);
 		println("POS TEST 1 COMPLETE");
 
@@ -120,12 +122,13 @@ public class Test extends Positioning {
 		
 		// Create required objects and variables for percentLine() TEST 1
 		GLine line1 = new GLine(0,0,0,0);
-		double line1x1 = 10;
-		double line1y1 = 80;
-		double line1x2 = 80;
+		double line1x1 = 0;
+		double line1y1 = 50;
+		double line1x2 = 100;
 		double line1y2 = 90;
 		
-		percentLine(line1,line1x1,line1y1,line1x2,line1y2);
+		percentLine(line1,line1x1,line1y1,line1x2,line1y2,null);
+		line1.setColor(new Color(200,200,0,100));
 		add(line1);
 		println("PL TEST 1 COMPLETE");
 		
@@ -136,8 +139,8 @@ public class Test extends Positioning {
 		double line2y1 = 90;
 		double line2x2 = 80;
 		double line2y2 = 80;
-		int thickness = 10;
-		GPolygon poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness);
+		int thickness = 50;
+		GPolygon poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness,null);
 		
 
 		while(true) {
@@ -154,7 +157,7 @@ public class Test extends Positioning {
 				rectLabel(testLabel1,testRect4,percentX4,percentY4,padding,null);
 				rectLabel(testLabel2,testRect5,percentX5,percentY5,padding2,testRect4);
 
-				percentObjSize(testRect6,percentX6,percentY6);
+				percentObjSize(testRect6,percentX6,percentY6,null);
 
 				percentLabel(testLabel3,scale);
 				
@@ -163,10 +166,10 @@ public class Test extends Positioning {
 				percentObjRel(testLabel6, 0, 0, testLabel5, true);
 				labelChunk(testLabels1,testRect7,padding3,padding4);
 				
-				percentLine(line1,line1x1,line1y1,line1x2,line1y2);
+				percentLine(line1,line1x1,line1y1,line1x2,line1y2,testRect6);
 				
 				remove(poly);
-				poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness);
+				poly = thickLine(line2x1,line2y1,line2x2,line2y2,thickness,testRect6);
 				add(poly);
 				
 				// Write the new width and height to oldWidth and oldHeight
